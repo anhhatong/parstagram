@@ -31,7 +31,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let query = PFQuery(className: "Posts")
-        query.includeKey("author")
+        // convert references to actual value
+        query.includeKeys(["author", "comments", "comments.author"])
         query.limit = 20 // the last 20 posts
         
         query.findObjectsInBackground { (posts, error) in
@@ -43,25 +44,62 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let post = posts[section]
+        // Empty array if there are no comments
+        let comments = (post["comments"] as? [PFObject]) ?? []
+        return comments.count + 1 // 1 post picture + n comments rows
+    }
+    
+    // Every post is a section with different number of rows since comments are displayed
+    func numberOfSections(in tableView: UITableView) -> Int {
         return posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell") as! PostCell
-        let post = posts[indexPath.row]
-        let user = post["author"] as! PFUser
-        cell.usernameLabel.text = user.username
-        cell.captionLabel.text = (post["caption"] as! String)
+        let post = posts[indexPath.section]
+        let comments = (post["comments"] as? [PFObject]) ?? []
         
-        let imageFile = post["image"] as! PFFileObject
-        let urlString = imageFile.url!
-        let url = URL(string: urlString)!
-        cell.photoView.af_setImage(withURL: url) // AlamoImage funtion
-        
-        return cell
+        if (indexPath.row == 0) {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell") as! PostCell
+            let user = post["author"] as! PFUser
+            cell.usernameLabel.text = user.username
+            cell.captionLabel.text = (post["caption"] as! String)
+            
+            let imageFile = post["image"] as! PFFileObject
+            let urlString = imageFile.url!
+            let url = URL(string: urlString)!
+            cell.photoView.af_setImage(withURL: url) // AlamoImage funtion
+            
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CommentTableViewCell") as! CommentTableViewCell
+            let comment = comments[indexPath.row - 1]
+            cell.commentText.text = comment["text"] as? String
+            
+            let user = comment["author"] as! PFUser
+            cell.author.text = user.username
+            
+            return cell
+        }
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let post = posts[indexPath.row]
+        
+        let comment = PFObject(className: "Comments")
+        comment["text"] = "Test comment"
+        comment["post"] = post; // a foreign key to Post table
+        comment["author"] = PFUser.current() // a foreign key to User table
+        
+        post.add(comment, forKey: "comments") // add reference to Comment table
+        post.saveInBackground { (success, error) in
+            if success {
+                print("Saving comment success")
+            } else {
+                print("Error saving comment")
+            }
+        }
+    }
 
     /*
     // MARK: - Navigation

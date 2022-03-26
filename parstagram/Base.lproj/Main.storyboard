@@ -185,6 +185,41 @@
                                             <outlet property="usernameLabel" destination="xPT-oL-fs1" id="Jpr-xf-J96"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentTableViewCell" id="B2j-EF-rmI" customClass="CommentTableViewCell" customModule="parstagram" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="473.5" width="414" height="37.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="B2j-EF-rmI" id="LVI-xt-w0q">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="37.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JOH-Tq-1pr">
+                                                    <rect key="frame" x="8" y="8" width="84" height="21"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comment" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BsA-Br-qFm">
+                                                    <rect key="frame" x="100" y="8" width="75" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="JOH-Tq-1pr" secondAttribute="bottom" constant="8" id="B1J-I9-wS2"/>
+                                                <constraint firstItem="BsA-Br-qFm" firstAttribute="top" secondItem="LVI-xt-w0q" secondAttribute="top" constant="8" id="CZw-rh-7JA"/>
+                                                <constraint firstItem="BsA-Br-qFm" firstAttribute="leading" secondItem="JOH-Tq-1pr" secondAttribute="trailing" constant="8" id="Dml-3x-v3Z"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="BsA-Br-qFm" secondAttribute="bottom" constant="8" id="SGt-G8-6XQ"/>
+                                                <constraint firstItem="JOH-Tq-1pr" firstAttribute="top" secondItem="LVI-xt-w0q" secondAttribute="top" constant="8" id="cUR-8u-XZH"/>
+                                                <constraint firstItem="JOH-Tq-1pr" firstAttribute="leading" secondItem="LVI-xt-w0q" secondAttribute="leading" constant="8" id="fzY-b6-Duv"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BsA-Br-qFm" secondAttribute="trailing" constant="8" id="shf-V1-5T9"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="author" destination="JOH-Tq-1pr" id="QRJ-hq-LHM"/>
+                                            <outlet property="commentText" destination="BsA-Br-qFm" id="dDc-tF-lML"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>

@@ -79,12 +79,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         selectedPost.add(comment, forKey: "comments") // add reference to Comment table
         selectedPost.saveInBackground { (success, error) in
             if success {
-                self.tableView.reloadData()
+                print("Saving comment success")
             } else {
                 print("Error saving comment")
             }
         }
-        
+        self.tableView.reloadData()
         // Hide bar
         showCommentBar = false
         becomeFirstResponder()
